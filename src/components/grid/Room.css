@@ -1,0 +1,59 @@
+.Room-main {
+    position: relative;
+    background-color: rgb(211, 237, 211);
+    border: solid black 3px;
+    flex-grow: 1;
+    height: 25vh;
+}
+
+.Bed-imgPos1Container {
+    position: relative;
+    max-width: 20%;
+    max-height: 50%;
+}
+.Bed-imgPos1 {
+    position: absolute;
+    left: 0;
+    top: 0;
+    max-width: 20%;
+
+}
+.Bed-imgPos2 {
+    position: absolute;
+    left: 80%; 
+    top: 0;
+    width: 20%;
+}
+.Bed-imgPos3 {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 20%;
+}
+.Bed-imgPos4 {
+    position: absolute;
+    left: 80%;
+    top: 50%;
+    width: 20%;
+}
+.Bed-overlay{
+    background: rgba(174, 40, 33, 0.82);
+    overflow: hidden;
+    height: 100%;
+    z-index: 1;
+}
+
+#overlay {
+    position: absolute; /* Sit on top of the page content */
+    display: none; /* Hidden by default */
+    width: 20%; /* Full width (cover the whole page) */
+    height: 32%; /* Full height (cover the whole page) */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 36, 36, 0.5); /* Black background with opacity */
+    z-index: 1; /* Specify a stack order in case you're using a different order for other elements */
+    cursor: pointer; /* Add a pointer on hover */
+
+  }

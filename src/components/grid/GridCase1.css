@@ -1,0 +1,25 @@
+.Grid-wrapper {
+    display: grid;
+    width: 100vw;
+    background-color: green;
+    
+}
+
+.Grid-main {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+}
+
+.Grid-wall {
+    background-color: black;
+}
+
+.Grid-roomContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100vw;
+    align-items: stretch;
+}
+
