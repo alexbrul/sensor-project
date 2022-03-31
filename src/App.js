@@ -3,6 +3,7 @@ import './App.css';
 import {useState} from 'react'
 import Box from './components/grid/Box.js'
 import GridCase1 from './components/grid/GridCase1.js'
+import Elderly from './components/elderly/Elderly.js'
 
 
 function App() {
@@ -15,7 +16,7 @@ function App() {
          <div className="App-case" onClick={() => setCaseNr(2)}>Monitoring of seniors at home</div>
       </header>
       {casenr==1 && <GridCase1/>}
-      {casenr==2}
+      {casenr==2 && <Elderly/>}
 
     </div>
     

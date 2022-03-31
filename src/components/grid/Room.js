@@ -9,6 +9,12 @@ export default function Room() {
         switch mellom bildene. Det er mye lettere!
 
         Også lage sengekomponenthook som tar ansvar for av og på osv.
+
+        Jeg brukte possition fixed for å plassere sengene i hjørnet, men bedre å lage 2 rader,
+        for så å bare la de floate til siden.
+
+        Possition fixed fungerer ikke for da får vi ikke lagt overlay over bildet
+        uten at det floater uendelig. 
     */
 
    const [overlayon, setoverlay] = useState(false);
