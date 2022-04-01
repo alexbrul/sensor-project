@@ -20,7 +20,7 @@ export default function Grid() {
             </div>
             <div className="Grid-wall"> wall </div>
             <div className="Grid-hallway">-</div>
-            <div className="Grid-hallway">hallway</div>
+            <div className="Grid-hallway">hallway 3rd floor</div>
             <div className="Grid-hallway">-</div>
 
 

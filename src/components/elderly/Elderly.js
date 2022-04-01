@@ -3,15 +3,16 @@ import './Elderly.css'
 
 export default function Elderly() {
   return (
-    <div>
+    <div className="Elderly-wrapper">
+      <br/>
         <table className="Elderly-table">
     <tr>
       <th>Name</th>
       <th>Did not go to bed</th>
       <th>Contact</th>
       <th>Mark as safe</th>
-      <td>Contact Family</td>
-      <td>Escelate</td>
+      <th>Contact Family</th>
+      <th>Escelate</th>
     </tr>
 
     <tr>
@@ -48,15 +49,16 @@ export default function Elderly() {
   
   <br/>
   <br/>
+  <br/>
   
   <table className="Elderly-table">
     <tr>
       <th>Name</th>
       <th>Did not wake up</th>
       <th>Contact</th>
-      <td>Mark as safe</td>
-      <td>Contact Family</td>
-      <td>Escelate</td>
+      <th>Mark as safe</th>
+      <th>Contact Family</th>
+      <th>Escelate</th>
 
     </tr>
     <tr>
@@ -114,6 +116,9 @@ export default function Elderly() {
 
     </tr>
   </table>
+  <br/>
+  <br/>
+
   
   </div>
   )
