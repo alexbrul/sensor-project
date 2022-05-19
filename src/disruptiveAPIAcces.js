@@ -13,9 +13,9 @@ const baseUrl = 'https://api.d21s.com/v2'
 async function paginatedGet(url, resultField, keyId, secret, parameters) {
     let results = []
 
-    // Create a parameters dictionary that contains an empty page token.
+    // Params, but overwritten to main function to be generic. 
     let params = parameters
-    let paramsold = {'pageToken': ''}
+    let paramsold = {}
 
     // Loop until all pages have been fetched.
     console.log('Paging...')
@@ -37,7 +37,6 @@ async function paginatedGet(url, resultField, keyId, secret, parameters) {
                 )
             }
         })
-        console.log(results)
         if (!(resultField in page.data)) {
             console.log("Error with results: here is output")
             throw new Error('Field "' + resultField + '" not in response.')
@@ -45,7 +44,7 @@ async function paginatedGet(url, resultField, keyId, secret, parameters) {
 
         // Concatenate response contents to output list.
         results.push(...page.data[resultField])
-        console.log(`- ${page.data[resultField].length} projects in page.`)
+        console.log(`- ${page.data[resultField].length} events in page.`)
 
         // Update parameters with next page token.
         if (page.data.nextPageToken.length > 0) {
@@ -59,23 +58,67 @@ async function paginatedGet(url, resultField, keyId, secret, parameters) {
 }
 
 async function main () {
-    // Make paginated requests for all available projects.
+    // get sensor data from the last 24 hours.
     let results = []
+    //projects/projectid/devices/deviceId/events. events nr 2 retrieves events response from dict. 
     results = await paginatedGet(
         baseUrl + '/projects/c9ju20a0gvhdcct6gmjg/devices/' + baderomEn + '/events',
         'events',
         serviceAccountKeyId,
         serviceAccountSecret,
-        params = {
+        params = { //pageToken is needed for pagination iteration. Add timestamps here if we need
+            'pageToken': '',
             'eventTypes': ["objectPresent"]
         },
     )
 
-    // Print display all results
+    // Print all results
     for (let i = 0; i < results.length; i++) {
-        console.log(results[i])
+        console.log(results[i].data.objectPresent) //retrives event data from object
     }
 }
 
 
-main().catch((err) => {console.log(err)});
+//main().catch((err) => {console.log(err)});
+
+
+/* example output:
+
+{ state: 'NOT_PRESENT', updateTime: '2022-05-19T15:21:01.487000Z' }
+{ state: 'PRESENT', updateTime: '2022-05-19T15:15:01.141000Z' }
+{ state: 'NOT_PRESENT', updateTime: '2022-05-19T13:28:42.744000Z' }
+{ state: 'PRESENT', updateTime: '2022-05-19T13:25:14.432000Z' }
+{ state: 'NOT_PRESENT', updateTime: '2022-05-19T12:23:16.734000Z' }
+{ state: 'PRESENT', updateTime: '2022-05-19T12:19:08.812000Z' }
+
+*/
+
+
+async function getBathRoom1 () {
+        // get sensor data from the last 24 hours.
+        let results = []
+        //projects/projectid/devices/deviceId/events. events nr 2 retrieves events response from dict. 
+        results = await paginatedGet(
+            baseUrl + '/projects/c9ju20a0gvhdcct6gmjg/devices/' + baderomEn + '/events',
+            'events',
+            serviceAccountKeyId,
+            serviceAccountSecret,
+            params = { //pageToken is needed for pagination iteration. Add timestamps here if we need
+                'pageToken': '',
+                'eventTypes': ["objectPresent"]
+            },
+        )
+    
+        // Print all results
+        let output = []
+        for (let i = 0; i < results.length; i++) {
+            output.push(results[i].data.objectPresent) //retrives event data from object
+        }
+        return output;
+
+}
+
+getBathRoom1().catch((err) => {console.log(err)}).then(test => {console.log(test)})
+
+
+
