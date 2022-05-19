@@ -2,7 +2,7 @@ const axios = require('axios').default
 
 // Environment variables for authentication and target.
 const serviceAccountKeyId  = "ca34rv45020000d9bh30"
-const serviceAccountSecret = "1238a8950b3b6ee4048a4c401c8d4536098xxBotBreakerxx123"
+const serviceAccountSecret = "8a8950b3b6ee4048a4c401c8d4536098"
 const IDSoveromAlex = 'bj9sf6v7cdlg00b9vf50'
 const baderomEn= 'bj9tpt41bddg00fbmi6g'
 const baderomTO = 'bj9tmr3fvtng00a964j0'
@@ -10,11 +10,12 @@ const baderomTO = 'bj9tmr3fvtng00a964j0'
 // Shortform Disruptive REST API base url.
 const baseUrl = 'https://api.d21s.com/v2'
 
-async function paginatedGet(url, resultField, keyId, secret) {
+async function paginatedGet(url, resultField, keyId, secret, parameters) {
     let results = []
 
     // Create a parameters dictionary that contains an empty page token.
-    let params = {'pageToken': ''}
+    let params = parameters
+    let paramsold = {'pageToken': ''}
 
     // Loop until all pages have been fetched.
     console.log('Paging...')
@@ -38,6 +39,7 @@ async function paginatedGet(url, resultField, keyId, secret) {
         })
         console.log(results)
         if (!(resultField in page.data)) {
+            console.log("Error with results: here is output")
             throw new Error('Field "' + resultField + '" not in response.')
         }
 
@@ -58,33 +60,20 @@ async function paginatedGet(url, resultField, keyId, secret) {
 
 async function main () {
     // Make paginated requests for all available projects.
-    let projects = []
-    projects = await paginatedGet(
+    let results = []
+    results = await paginatedGet(
         baseUrl + '/projects/c9ju20a0gvhdcct6gmjg/devices/' + baderomEn + '/events',
         'events',
         serviceAccountKeyId,
         serviceAccountSecret,
+        params = {
+            'eventTypes': ["objectPresent"]
+        },
     )
 
-    // Print display name of all fetched projects.
-    for (let i = 0; i < projects.length; i++) {
-        console.log(projects[i])
-    }
-}
-
-async function main2 () {
-    // Make paginated requests for all available projects.
-    let projects = []
-    projects = await paginatedGet(
-        baseUrl + '/projects/c9ju20a0gvhdcct6gmjg/devices/' + baderomTo + '/events',
-        'events',
-        serviceAccountKeyId,
-        serviceAccountSecret,
-    )
-
-    // Print display name of all fetched projects.
-    for (let i = 0; i < projects.length; i++) {
-        console.log(projects[i])
+    // Print display all results
+    for (let i = 0; i < results.length; i++) {
+        console.log(results[i])
     }
 }
 
