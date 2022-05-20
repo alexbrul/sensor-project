@@ -1,14 +1,20 @@
+import React from 'react'
+import {useState, useEffect} from 'react'
+
+
 const axios = require('axios').default
+
 
 // Environment variables for authentication and target.
 const serviceAccountKeyId  = "ca34rv45020000d9bh30"
 const serviceAccountSecret = "8a8950b3b6ee4048a4c401c8d4536098"
 const IDSoveromAlex = 'bj9sf6v7cdlg00b9vf50'
 const baderomEn= 'bj9tpt41bddg00fbmi6g'
-const baderomTO = 'bj9tmr3fvtng00a964j0'
+const baderomTo = 'bj9tmr3fvtng00a964j0'
 
 // Shortform Disruptive REST API base url.
 const baseUrl = 'https://api.d21s.com/v2'
+
 
 async function paginatedGet(url, resultField, keyId, secret, parameters) {
     let results = []
@@ -57,26 +63,7 @@ async function paginatedGet(url, resultField, keyId, secret, parameters) {
     return results
 }
 
-async function main () {
-    // get sensor data from the last 24 hours.
-    let results = []
-    //projects/projectid/devices/deviceId/events. events nr 2 retrieves events response from dict. 
-    results = await paginatedGet(
-        baseUrl + '/projects/c9ju20a0gvhdcct6gmjg/devices/' + baderomEn + '/events',
-        'events',
-        serviceAccountKeyId,
-        serviceAccountSecret,
-        params = { //pageToken is needed for pagination iteration. Add timestamps here if we need
-            'pageToken': '',
-            'eventTypes': ["objectPresent"]
-        },
-    )
 
-    // Print all results
-    for (let i = 0; i < results.length; i++) {
-        console.log(results[i].data.objectPresent) //retrives event data from object
-    }
-}
 
 
 //main().catch((err) => {console.log(err)});
@@ -94,31 +81,62 @@ async function main () {
 */
 
 
-async function getBathRoom1 () {
+async function GetBathRoomWithArg (sensorID) {
         // get sensor data from the last 24 hours.
+
+        let parameters = { 
+            'pageToken': '',
+            'eventTypes': ["objectPresent"]
+        }
         let results = []
         //projects/projectid/devices/deviceId/events. events nr 2 retrieves events response from dict. 
         results = await paginatedGet(
-            baseUrl + '/projects/c9ju20a0gvhdcct6gmjg/devices/' + baderomEn + '/events',
+            baseUrl + '/projects/c9ju20a0gvhdcct6gmjg/devices/' + sensorID + '/events',
             'events',
             serviceAccountKeyId,
             serviceAccountSecret,
-            params = { //pageToken is needed for pagination iteration. Add timestamps here if we need
-                'pageToken': '',
-                'eventTypes': ["objectPresent"]
-            },
+            parameters
+            ,
         )
-    
+    ///test
         // Print all results
         let output = []
         for (let i = 0; i < results.length; i++) {
-            output.push(results[i].data.objectPresent) //retrives event data from object
+            console.log(results[i].data.objectPresent)
+            output.push(Object.entries(results[i].data.objectPresent)) //retrives event data from object
         }
+        console.log("output", output)
         return output;
 
 }
 
-getBathRoom1().catch((err) => {console.log(err)}).then(test => {console.log(test)})
+//getBathRoom1().catch((err) => {console.log(err)}).then(test => {console.log(test)})
+
+//Se main for hvordan man bruker. Er bare aa sette inn, saa bruke liste[element][element]
+export function GetBathroomOneHook(){
+    const [bathRoom1, setBathroom1] = useState("none");
+
+    useEffect(() => {
+        GetBathRoomWithArg(baderomEn).catch((err) => {console.log(err)}).then(test => {
+            setBathroom1(test)})
+    }, [])
 
 
+
+    return [bathRoom1]
+
+}
+//Se main for hvordan man bruker. Er bare aa sette inn, saa bruke liste[element][element]
+export function GetBathroom2Hook(){
+    const [bathRoom1, setBathroom1] = useState("none");
+
+    useEffect(() => {
+        GetBathRoomWithArg(baderomTo).catch((err) => {console.log(err)}).then(test => {
+            setBathroom1(test)})
+    }, [])
+
+
+    return [bathRoom1]
+
+}
 
