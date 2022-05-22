@@ -1,5 +1,7 @@
 import React from 'react'
 import {useState, useEffect} from 'react'
+import moment from 'moment';
+
 
 
 const axios = require('axios').default
@@ -10,7 +12,6 @@ const serviceAccountKeyId  = "ca34rv45020000d9bh30"
 const serviceAccountSecret = "8a8950b3b6ee4048a4c401c8d4536098"
 const IDSoveromAlex = 'bj9sf6v7cdlg00b9vf50'
 const baderomEn= 'bj9tpt41bddg00fbmi6g'
-const baderomTo = 'bj9tmr3fvtng00a964j0'
 
 // Shortform Disruptive REST API base url.
 const baseUrl = 'https://api.d21s.com/v2'
@@ -113,30 +114,28 @@ async function GetBathRoomWithArg (sensorID) {
 //getBathRoom1().catch((err) => {console.log(err)}).then(test => {console.log(test)})
 
 //Se main for hvordan man bruker. Er bare aa sette inn, saa bruke liste[element][element]
-export function GetBathroomOneHook(){
-    const [bathRoom1, setBathroom1] = useState("none");
+export function GetBathroom2Hook(sensorID){
+    const [bathRoom2, setBathroom2] = useState("none");
+    const [lastDate, setLastDate] = useState("none");
+    const [timeFromNow, setTimeFromNow] = useState("none");
+    
 
+    //componentdidload
     useEffect(() => {
-        GetBathRoomWithArg(baderomEn).catch((err) => {console.log(err)}).then(test => {
-            setBathroom1(test)})
+        GetBathRoomWithArg(sensorID).catch((err) => {console.log(err)}).then(test => {
+            setBathroom2(test)
+            setLastDate(test[0][1][1])
+            setTimeFromNow(moment.utc(test[0][1][1]).local().startOf('seconds').fromNow())
+        })
+            
     }, [])
 
 
 
-    return [bathRoom1]
-
-}
-//Se main for hvordan man bruker. Er bare aa sette inn, saa bruke liste[element][element]
-export function GetBathroom2Hook(){
-    const [bathRoom1, setBathroom1] = useState("none");
-
-    useEffect(() => {
-        GetBathRoomWithArg(baderomTo).catch((err) => {console.log(err)}).then(test => {
-            setBathroom1(test)})
-    }, [])
 
 
-    return [bathRoom1]
+
+    return [bathRoom2, lastDate, timeFromNow]
 
 }
 
